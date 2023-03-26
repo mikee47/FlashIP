@@ -1,0 +1,3 @@
+COMPONENT_SOC := host rp2040
+COMPONENT_INCDIRS := src/include
+COMPONENT_SRCDIRS := src src/Arch/$(SMING_ARCH)

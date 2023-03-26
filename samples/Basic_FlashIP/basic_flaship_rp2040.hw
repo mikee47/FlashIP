@@ -1,0 +1,6 @@
+{
+    "base_config": "basic_flaship",
+    "options": [
+        "cyw43_fw"
+    ]
+}

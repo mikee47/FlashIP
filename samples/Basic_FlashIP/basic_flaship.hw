@@ -1,0 +1,13 @@
+{
+    "name": "Basic FlashIP sample",
+    "base_config": "standard",
+    "partitions": {
+        "lfs0": {
+            "device": "spiFlash",
+            "address": "0x00100000",
+            "size": "800K",
+            "type": "data",
+            "subtype": "littlefs"
+        }
+    }
+}
