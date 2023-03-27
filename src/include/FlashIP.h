@@ -23,6 +23,12 @@
 #include <FlashString/ObjectBase.hpp>
 #include <IFS/Extent.h>
 
+#ifdef FLASHIP_RETURN
+#define FLASHIP_NORETURN
+#else
+#define FLASHIP_NORETURN __attribute__((noreturn))
+#endif
+
 /**
  * @brief Manages in-place flash updates
  */
@@ -77,7 +83,7 @@ public:
 	/**
      * @brief Execute the queued operations then reboot
      */
-	void __attribute__((noreturn)) execute();
+	void FLASHIP_NORETURN execute();
 
 private:
 	static Item* allocItem(uint32_t targetOffset, uint16_t extCount);

@@ -83,6 +83,8 @@ void FlashIP::execute()
 		programItem(item);
 	}
 
+#ifndef FLASHIP_RETURN
 	system_restart();
 	exit(0);
+#endif
 }

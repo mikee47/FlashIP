@@ -1,0 +1,17 @@
+{
+    "name": "FlashIP test",
+    "base_config": "standard",
+    "partitions": {
+        "lfs0": {
+            "address": "0x00100000",
+            "size": "800K",
+            "type": "data",
+            "subtype": "littlefs",
+            "filename": "out/lfs.bin",
+            "build": {
+                "target": "lfs-build",
+                "config": "test.fwfs"
+            }
+        }
+    }
+}
