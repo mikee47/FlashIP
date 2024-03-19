@@ -1,6 +1,7 @@
 #include <SmingCore.h>
 #include <LittleFS.h>
 #include <FlashIP.h>
+#include <Data/Buffer/LineBuffer.h>
 
 #ifndef WIFI_SSID
 #define WIFI_SSID "PleaseEnterSSID" // Put your SSID and password here
@@ -43,23 +44,18 @@ void doUpgrade()
 	});
 
 	if(!client.send(request)) {
-		Serial << _F("ERROR: Rejected sending new request");
+		Serial << _F("ERROR: Rejected sending new request") << endl;
 	}
 }
 
-void serialCallBack(Stream& stream, char arrivedChar, unsigned short availableCharsCount)
+void handleCommand(const String& str)
 {
-	int pos = stream.indexOf('\n');
-	if(pos < 0) {
+	if(F("connect") == str) {
+		Serial << _F("Connecting to '") << WIFI_SSID << "'..." << endl;
+		WifiStation.config(WIFI_SSID, WIFI_PWD);
+		WifiStation.enable(true);
+		WifiStation.connect();
 		return;
-	}
-
-	char str[pos + 1];
-	for(int i = 0; i < pos + 1; i++) {
-		str[i] = stream.read();
-		if(str[i] == '\r' || str[i] == '\n') {
-			str[i] = '\0';
-		}
 	}
 
 	if(F("ip") == str) {
@@ -96,6 +92,30 @@ void serialCallBack(Stream& stream, char arrivedChar, unsigned short availableCh
 	Serial << _F("unknown command: '") << str << '\'' << endl;
 }
 
+LineBuffer<16> commandBuffer;
+
+void showPrompt()
+{
+	Serial << _F("FlashIP> ") << commandBuffer;
+}
+
+void serialCallBack(Stream& stream, char arrivedChar, unsigned short availableCharsCount)
+{
+	switch(commandBuffer.process(stream, Serial)) {
+	case commandBuffer.Action::submit:
+		if(commandBuffer) {
+			handleCommand(String(commandBuffer));
+			commandBuffer.clear();
+		}
+		showPrompt();
+		break;
+	case commandBuffer.Action::clear:
+		showPrompt();
+		break;
+	default:;
+	}
+}
+
 } // namespace
 
 void init()
@@ -106,13 +126,10 @@ void init()
 
 	lfs_mount();
 
-	Serial << _F("Connecting to '") << WIFI_SSID << "'..." << endl;
-	WifiAccessPoint.enable(false);
-	WifiStation.config(WIFI_SSID, WIFI_PWD);
-	WifiStation.enable(true);
-	WifiStation.connect();
+	WifiEvents.onStationGotIP([](IpAddress ip, IpAddress netmask, IpAddress gateway) { showPrompt(); });
 
 	Serial << _F("Type 'help' and press enter for instructions.") << endl << endl;
+	showPrompt();
 
 	Serial.onDataReceived(serialCallBack);
 }
