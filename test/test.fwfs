@@ -1,6 +1,0 @@
-{
-    "name": "Test partition",
-    "source": {
-        "flaship.bin": "${SMING_HOME}/building.rst" // File of reasonable size
-    }
-}

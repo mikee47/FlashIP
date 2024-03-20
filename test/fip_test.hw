@@ -3,14 +3,30 @@
     "base_config": "standard",
     "partitions": {
         "lfs0": {
-            "address": "0x00100000",
-            "size": "800K",
+            "address": "0x100000",
+            "size": "256K",
             "type": "data",
             "subtype": "littlefs",
             "filename": "out/lfs.bin",
             "build": {
                 "target": "lfs-build",
-                "config": "test.fwfs"
+                "config": {
+                    "name": "Test partition",
+                    "source": {
+                        "/": "files"
+                    }
+                }
+            }
+        },
+        "spiffs0": {
+            "address": "0x140000",
+            "size": "256K",
+            "type": "data",
+            "subtype": "spiffs",
+            "filename": "out/spiffs.bin",
+            "build": {
+                "target": "spiffsgen",
+                "files": "files"
             }
         }
     }

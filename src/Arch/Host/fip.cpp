@@ -19,8 +19,7 @@
 
 #include "../include/FlashIP.h"
 #include <esp_spi_flash.h>
-#include <esp_system.h>
-#include <debug_progmem.h>
+#include <esp_systemapi.h>
 
 #define FLASH_SECTOR_SIZE INTERNAL_FLASH_SECTOR_SIZE
 
@@ -36,8 +35,6 @@ void programBlock(int32_t dstAddress)
 
 void programItem(FlashIP::Item* item)
 {
-	debug_i("programItem(%p)", item);
-
 	uint32_t dstAddress = item->targetOffset;
 	uint32_t blockOffset{0};
 	unsigned blockIndex{0};
@@ -77,7 +74,7 @@ void programItem(FlashIP::Item* item)
 
 void FlashIP::execute()
 {
-	ets_intr_lock();
+	noInterrupts();
 
 	for(auto item = itemList; item; item = item->next) {
 		programItem(item);
