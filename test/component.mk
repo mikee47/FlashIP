@@ -3,3 +3,6 @@ COMPONENT_DEPENDS := FlashIP LittleFS
 HWCONFIG := fip_test
 DISABLE_NETWORK := 1
 GLOBAL_CFLAGS += -DFLASHIP_RETURN=1
+
+.PHONY: execute
+execute: flash run
