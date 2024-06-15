@@ -78,7 +78,7 @@ bool FlashIP::addItem(Storage::Partition targetPartition, uint32_t offset, Stora
 		auto& ext = extents[i];
 		ext.offset += sourceBase;
 		item->ext[i] = Extent{
-			.sourceOffset = ext.offset,
+			.sourceOffset = uint32_t(ext.offset),
 			.length = ext.length,
 			.skip = ext.skip,
 			.repeat = ext.repeat,
@@ -133,7 +133,7 @@ bool FlashIP::addObject(Storage::Partition targetPartition, uint32_t offset, con
 	}
 	item->ext[0] = Extent{
 		.sourceOffset = flashmem_get_address(obj.data()),
-		.length = obj.length(),
+		.length = uint32_t(obj.length()),
 	};
 	item->next = itemList;
 	itemList = item;

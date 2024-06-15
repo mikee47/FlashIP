@@ -25,7 +25,7 @@
 
 namespace
 {
-uint8_t buffer[FLASH_SECTOR_SIZE];
+alignas(uint32_t) uint8_t buffer[FLASH_SECTOR_SIZE];
 
 void programBlock(int32_t dstAddress)
 {

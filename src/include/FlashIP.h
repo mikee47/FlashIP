@@ -40,7 +40,7 @@ public:
 	 * @note Similar information as IFS::Extent but specific to 32-bit flash devices
 	 */
 	struct Extent {
-		uint32_t sourceOffset; ///< Address in flash to read from
+		uintptr_t sourceOffset; ///< Address in flash to read from
 		uint32_t length;	   ///< Size of block in bytes
 		uint16_t skip;		   ///< Skip bytes to next repeat
 		uint16_t repeat;	   ///< Number of repeats
@@ -50,7 +50,7 @@ public:
      * @brief Information about what to copy and where to
      */
 	struct Item {
-		uint32_t targetOffset; ///< Starting write flash address
+		uintptr_t targetOffset; ///< Starting write flash address
 		uint16_t extCount;	 ///< Number of extents
 		uint16_t reserved;
 		Item* next;
