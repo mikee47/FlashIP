@@ -27,7 +27,7 @@ namespace
 {
 alignas(uint32_t) uint8_t buffer[FLASH_SECTOR_SIZE];
 
-void programBlock(int32_t dstAddress)
+void programBlock(uint32_t dstAddress)
 {
 	flashmem_erase_sector(dstAddress / FLASH_SECTOR_SIZE);
 	flashmem_write_internal(buffer, dstAddress, FLASH_SECTOR_SIZE);

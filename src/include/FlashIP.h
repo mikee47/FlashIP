@@ -41,9 +41,9 @@ public:
 	 */
 	struct Extent {
 		uintptr_t sourceOffset; ///< Address in flash to read from
-		uint32_t length;	   ///< Size of block in bytes
-		uint16_t skip;		   ///< Skip bytes to next repeat
-		uint16_t repeat;	   ///< Number of repeats
+		uint32_t length;		///< Size of block in bytes
+		uint16_t skip;			///< Skip bytes to next repeat
+		uint16_t repeat;		///< Number of repeats
 	};
 
 	/**
@@ -51,7 +51,7 @@ public:
      */
 	struct Item {
 		uintptr_t targetOffset; ///< Starting write flash address
-		uint16_t extCount;	 ///< Number of extents
+		uint16_t extCount;		///< Number of extents
 		uint16_t reserved;
 		Item* next;
 		Extent ext[];
