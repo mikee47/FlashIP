@@ -99,7 +99,7 @@ void showPrompt()
 	Serial << _F("FlashIP> ") << commandBuffer;
 }
 
-void serialCallBack(Stream& stream, char arrivedChar, unsigned short availableCharsCount)
+void serialCallBack(Stream& stream, char, unsigned short)
 {
 	switch(commandBuffer.process(stream, Serial)) {
 	case LineBufferBase::Action::submit:
@@ -126,7 +126,7 @@ void init()
 
 	lfs_mount();
 
-	WifiEvents.onStationGotIP([](IpAddress ip, IpAddress netmask, IpAddress gateway) { showPrompt(); });
+	WifiEvents.onStationGotIP([](IpAddress, IpAddress, IpAddress) { showPrompt(); });
 
 	Serial << _F("Type 'help' and press enter for instructions.") << endl << endl;
 	showPrompt();
